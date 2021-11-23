@@ -16,7 +16,7 @@
             <h1 class="mt-3">{{ first }}</h1>
           </div>
           <h4 class="mb-4" v-else>첫번쨰</h4>
-          <button type="button" class="btn btn-light" @click="yellowMeteor1st">노란메테오</button>
+          <button type="button" class="btn btn-light mr-1" @click="yellowMeteor1st">노란메테오</button>
           <button type="button" class="btn btn-light" @click="blueMeteor1st">파란메테오</button>
         </div>
       </div>
@@ -27,8 +27,8 @@
             <h1 class="mt-3">{{ second }}</h1>
           </div>
           <h4 class="mb-4" v-else>두번쨰</h4>
-          <button type="button" class="btn btn-light" @click="yellowMeteor2st">두번쨰 노란메테오</button>
-          <button type="button" class="btn btn-light" @click="blueMeteor2st">두번째 파란메테오</button>
+          <button type="button" class="btn btn-light mr-1" @click="yellowMeteor2st">노란메테오</button>
+          <button type="button" class="btn btn-light" @click="blueMeteor2st">파란메테오</button>
         </div>
       </div>
       <div class="mt-4">
@@ -38,8 +38,8 @@
             <h1 class="mt-3">{{ third }}</h1>
           </div>
           <h4 class="mb-4" v-else>세번쨰</h4>
-          <button type="button" class="btn btn-light" @click="yellowMeteor3st">세번쨰 노란메테오</button>
-          <button type="button" class="btn btn-light" @click="blueMeteor3st">세번쨰 파란메테오</button>
+          <button type="button" class="btn btn-light mr-1" @click="yellowMeteor3st">노란메테오</button>
+          <button type="button" class="btn btn-light" @click="blueMeteor3st">파란메테오</button>
         </div>
       </div>
     </div>
@@ -47,8 +47,8 @@
       <div class="box">
         메테오 계산법
         <div class="mt-3">
-          노란 메테오: 클릭 시점 시간 - 100초(1분 40초)<br>
-          파란 메테오: 클릭 시점 시간 - 40<br><br>
+          노란 메테오: 클릭 시점 시간 - 100초 (1분 40초)<br>
+          파란 메테오: 클릭 시점 시간 - 40초<br><br>
           기존 파란색 메테오는 노란색 메테오 이후 60초 이후에 생성됨<br>
           '두번째' 메테오는 위의 시간에 + 30초를 함. 찬미 영상을 30초로 계산
         </div>
