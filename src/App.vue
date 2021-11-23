@@ -106,12 +106,12 @@ export default class App extends Vue {
   }
 
   yellowMeteor3st() {
-    const now = Math.ceil((Date.now() - this.startDt) / 1000) + (this.makeTime - this.chanMe);
+    const now = Math.ceil((Date.now() - this.startDt) / 1000) + this.makeTime;
     this.third = this.getDate(1200 - now);
   }
 
   blueMeteor3st() {
-    const now = Math.ceil((Date.now() - this.startDt) / 1000) + (this.nextBlueTime - this.chanMe);
+    const now = Math.ceil((Date.now() - this.startDt) / 1000) + this.nextBlueTime;
     this.third = this.getDate(1200 - now);
   }
 
