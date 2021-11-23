@@ -16,7 +16,7 @@
             <h1 class="mt-3">{{ first }}</h1>
           </div>
           <h4 class="mb-4" v-else>첫번쨰</h4>
-          <button type="button" class="btn btn-light mr-1" @click="yellowMeteor1st">노란메테오</button>
+          <button type="button" class="btn btn-light" :style="{'margin-right': '5px'}" @click="yellowMeteor1st">노란메테오</button>
           <button type="button" class="btn btn-light" @click="blueMeteor1st">파란메테오</button>
         </div>
       </div>
@@ -27,7 +27,7 @@
             <h1 class="mt-3">{{ second }}</h1>
           </div>
           <h4 class="mb-4" v-else>두번쨰</h4>
-          <button type="button" class="btn btn-light mr-1" @click="yellowMeteor2st">노란메테오</button>
+          <button type="button" class="btn btn-light" :style="{'margin-right': '5px'}" @click="yellowMeteor2st">노란메테오</button>
           <button type="button" class="btn btn-light" @click="blueMeteor2st">파란메테오</button>
         </div>
       </div>
@@ -38,7 +38,7 @@
             <h1 class="mt-3">{{ third }}</h1>
           </div>
           <h4 class="mb-4" v-else>세번쨰</h4>
-          <button type="button" class="btn btn-light mr-1" @click="yellowMeteor3st">노란메테오</button>
+          <button type="button" class="btn btn-light" :style="{'margin-right': '5px'}" @click="yellowMeteor3st">노란메테오</button>
           <button type="button" class="btn btn-light" @click="blueMeteor3st">파란메테오</button>
         </div>
       </div>
