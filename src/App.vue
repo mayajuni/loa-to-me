@@ -1,57 +1,22 @@
 <template>
   <div id="app" class="py-5 text-center container">
     <h2 class="mb-5">아브 운석 계산기</h2>
-    <div v-if="isPlaying === false">
-      <div>
-        <button type="button" class="btn btn-light" @click="start">입장시 클릭</button>
-      </div>
+    <div class="input-box">
+      <input class="form-control" v-model="time" maxlength="4" placeholder="노란메테오 시간을 4자리로 입력해주세요."
+             @keypress="onlyNumber" @keyup.enter="calculateTime">
+      <div class="small mt-1">엔터를 누르거나 밑의 버튼을 누르면 계산이 됩니다.</div>
+      <button type="button" class="btn btn-light mt-2" @click="calculateTime">계산하기</button>
     </div>
-    <div v-else>
-      <h3>아브 진행중</h3>
-      <button type="button" class="mt-1 btn btn-sm btn-light " @click="restart">재입장</button>
-      <div class="mt-4">
-        <div class="box">
-          <div class="mb-4" v-if="first">
-            <div>첫번째 장판 생성 시간</div>
-            <h1 class="mt-3">{{ first }}</h1>
-          </div>
-          <h4 class="mb-4" v-else>첫번쨰</h4>
-          <button type="button" class="btn btn-light" :style="{'margin-right': '5px'}" @click="yellowMeteor1st">노란메테오</button>
-          <button type="button" class="btn btn-light" @click="blueMeteor1st">파란메테오</button>
-        </div>
-      </div>
-      <div class="mt-4">
-        <div class="box">
-          <div class="mb-4" v-if="second">
-            <div>두번째 장판 생성 시간</div>
-            <h1 class="mt-3">{{ second }}</h1>
-          </div>
-          <h4 class="mb-4" v-else>두번쨰</h4>
-          <button type="button" class="btn btn-light" :style="{'margin-right': '5px'}" @click="yellowMeteor2st">노란메테오</button>
-          <button type="button" class="btn btn-light" @click="blueMeteor2st">파란메테오</button>
-        </div>
-      </div>
-      <div class="mt-4">
-        <div class="box">
-          <div class="mb-4" v-if="third">
-            <div>세번째 장판 생성 시간</div>
-            <h1 class="mt-3">{{ third }}</h1>
-          </div>
-          <h4 class="mb-4" v-else>세번쨰</h4>
-          <button type="button" class="btn btn-light" :style="{'margin-right': '5px'}" @click="yellowMeteor3st">노란메테오</button>
-          <button type="button" class="btn btn-light" @click="blueMeteor3st">파란메테오</button>
-        </div>
-      </div>
-    </div>
-    <div class="mt-5">
+    <div class="mt-5" v-if="makeSec && chammeMakeSec">
       <div class="box">
-        메테오 계산법
-        <div class="mt-3">
-          노란 메테오: 클릭 시점 시간 - 100초 (1분 40초)<br>
-          파란 메테오: 클릭 시점 시간 - 40초<br><br>
-          기존 파란색 메테오는 노란색 메테오 이후 60초 이후에 생성됨<br>
-          '두번째' 메테오는 위의 시간에 + 30초를 함. 찬미 영상을 30초로 계산
-        </div>
+        장판 생성 시간<br>
+        <small>(첫번째, 세번째)</small>
+        <div class="fs-1"><strong>{{ makeSec }}</strong></div>
+      </div>
+      <div class="box">
+        2번째 장판 생성 시간<br>
+        <small>(찬미)</small>
+        <div class="fs-1"><strong>{{ chammeMakeSec }}</strong></div>
       </div>
     </div>
   </div>
@@ -61,66 +26,37 @@
 import { Component, Vue } from 'vue-property-decorator';
 import luHeader from '@/layout/header.component.vue';
 
+const MINUS_SECOND = 100;
+const CHANME_MINUS_SECOND = 70;
+
 @Component
 export default class App extends Vue {
-  isPlaying: boolean = false;
-  startDt: number = 0;
-  first: string = '';
-  second: string = '';
-  third: string = '';
-  makeTime: number = 100;
-  nextBlueTime: number = 40;
-  chanMe: number = 30;
+  time: string = '';
+  makeSec: string = '';
+  chammeMakeSec: string = '';
 
-  start() {
-    this.isPlaying = true;
-    this.startDt = Date.now();
+  onlyNumber($event: KeyboardEvent) {
+    if ($event.keyCode < 48 || $event.keyCode > 57) {
+      $event.returnValue = false;
+    }
   }
 
-  restart() {
-    this.isPlaying = true;
-    this.startDt = Date.now();
-    this.first = '';
-    this.second = '';
-    this.third = '';
+  calculateTime() {
+    if (this.time.length === 4) {
+      const convertSec = (Number(this.time.substr(0, 2)) * 60) + Number(this.time.substr(2, 2));
+      const makeSec = convertSec - MINUS_SECOND;
+      const chanmeMakeSec = convertSec - CHANME_MINUS_SECOND;
+
+      this.makeSec = this._format(makeSec);
+      this.chammeMakeSec = this._format(chanmeMakeSec);
+    }
   }
 
-  yellowMeteor1st() {
-    const now = Math.ceil((Date.now() - this.startDt) / 1000) + this.makeTime;
-    this.first = this.getDate(1200 - now);
-  }
+  private _format(second: number) {
+    const min = Math.floor(second / 60);
+    const sec = second - (min * 60);
 
-  blueMeteor1st() {
-    const now = Math.ceil((Date.now() - this.startDt) / 1000) + this.nextBlueTime;
-    this.first = this.getDate(1200 - now);
-  }
-
-  yellowMeteor2st() {
-    const now = Math.ceil((Date.now() - this.startDt) / 1000) + (this.makeTime - this.chanMe);
-    this.second = this.getDate(1200 - now);
-  }
-
-  blueMeteor2st() {
-    const now = Math.ceil((Date.now() - this.startDt) / 1000) + (this.nextBlueTime - this.chanMe);
-    this.second = this.getDate(1200 - now);
-  }
-
-  yellowMeteor3st() {
-    const now = Math.ceil((Date.now() - this.startDt) / 1000) + this.makeTime;
-    this.third = this.getDate(1200 - now);
-  }
-
-  blueMeteor3st() {
-    const now = Math.ceil((Date.now() - this.startDt) / 1000) + this.nextBlueTime;
-    this.third = this.getDate(1200 - now);
-  }
-
-  getDate(duration: number) {
-    const min = Math.floor((duration % 3600) / 60);
-    const sec = Math.floor(duration % 3600 % 60);
-
-    return `${min ? `${min < 10 ? '0' + min : min}:` : '00:'}` +
-        `${sec ? `${sec < 10 ? '0' + sec : sec}` : '00'}`;
+    return `${min}:${sec}`;
   }
 }
 </script>
@@ -131,11 +67,20 @@ body {
   color: rgb(237, 237, 237);
 }
 
+.input-box {
+  width: 480px;
+  margin: auto;
+}
+
 .box {
   border: 1px solid #dddddd;
   padding: 20px;
   border-radius: 10px;
-  min-width: 320px;
+  width: 280px;
   display: inline-block;
+
+  &:first-child {
+    margin-right: 15px;
+  }
 }
 </style>
