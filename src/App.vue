@@ -2,9 +2,10 @@
   <div id="app" class="py-5 text-center container">
     <h2 class="mb-5">아브 운석 계산기</h2>
     <div class="input-box">
-      <input class="form-control" v-model="time" maxlength="4" placeholder="노란메테오 시간을 4자리로 입력해주세요."
+      <input class="form-control" v-model="time" maxlength="4" placeholder="시간을 숫자 4자리로 입력해주세요."
              @keypress="onlyNumber" @keyup.enter="calculateTime">
       <div class="small mt-1">엔터를 누르거나 밑의 버튼을 누르면 계산이 됩니다.</div>
+      <div class="small">노란색 메테오로 장판이 꺠진 시간을 입력하면 됩니다.</div>
       <button type="button" class="btn btn-light mt-2" @click="calculateTime">계산하기</button>
     </div>
     <div class="mt-5" v-if="makeSec && chammeMakeSec">
@@ -47,8 +48,8 @@ export default class App extends Vue {
       const makeSec = convertSec - MINUS_SECOND;
       const chanmeMakeSec = convertSec - CHANME_MINUS_SECOND;
 
-      this.makeSec = this._format(makeSec);
-      this.chammeMakeSec = this._format(chanmeMakeSec);
+      this.makeSec = makeSec < 1 ? '00:00' : this._format(makeSec);
+      this.chammeMakeSec = chanmeMakeSec < 1 ? '00:00' : this._format(chanmeMakeSec);
     }
   }
 
@@ -56,7 +57,7 @@ export default class App extends Vue {
     const min = Math.floor(second / 60);
     const sec = second - (min * 60);
 
-    return `${min}:${sec}`;
+    return `${min < 10 ? '0' + min : min}:${sec < 10 ? '0' + sec : sec}`;
   }
 }
 </script>
